@@ -314,11 +314,11 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ lang = 'en' }) => {
         <div className="container mx-auto">
           <p>
             © 2025 Queens Auto Service. All Rights Reserved. |{" "}
-            <a className="hover:text-cyan-400" href="https://queensautoserviceselgin.com/privacy/" target="_blank" rel="noreferrer">
+            <a className="hover:text-cyan-400" href="https://queensautoservices.com/privacy" target="_blank" rel="noreferrer">
               Privacy Policy
             </a>{" "}
             |{" "}
-            <a className="hover:text-cyan-400" href="https://queensautoserviceselgin.com/terms/" target="_blank" rel="noreferrer">
+            <a className="hover:text-cyan-400" href="https://queensautoservices.com/terms" target="_blank" rel="noreferrer">
               Terms of Use
             </a>
           </p>
