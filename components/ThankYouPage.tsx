@@ -96,7 +96,7 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ lang = 'en' }) => {
             <img
               alt="Queens logo"
               className="h-10 w-auto"
-              src="https://storage.googleapis.com/queens-videos/Logo-White.webp"
+              src="/images/Logo-White.webp"
               onError={(e) =>
               ((e.target as HTMLImageElement).src =
                 "https://placehold.co/200x50/1e293b/ffffff?text=Queens+Auto")
@@ -176,7 +176,7 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ lang = 'en' }) => {
                   className="group relative inline-flex items-center justify-center px-8 py-3.5 text-base sm:text-lg font-bold text-white transition-all duration-300 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full hover:from-cyan-400 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] hover:scale-105 active:scale-95 animate-pulse"
                 >
                   <svg
-                    className="w-5 h-5 mr-3 fill-current"
+                    className="w-5 h-5 mr-3 fill-current text-white"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
@@ -187,19 +187,30 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ lang = 'en' }) => {
               </div>
             ) : (
               <div className="mb-10 w-full max-w-sm mx-auto cursor-pointer" onClick={toggleAudio}>
-                <div className={`bg-white/10 rounded-full p-2 flex items-center space-x-3 transition-all ${isPlaying ? 'ring-2 ring-cyan-400/50' : ''}`}>
-                  <span className="text-white text-2xl">{isPlaying ? '🔊' : '🔇'}</span>
-                  <span className="text-white text-sm">{isPlaying ? 'Playing...' : 'Click to Play Message'}</span>
+                <div className={`bg-white/10 rounded-full p-2 flex items-center space-x-3 transition-all px-5 ${isPlaying ? 'ring-2 ring-cyan-400/50' : ''}`}>
+                  <div className="w-6 h-6 flex items-center justify-center">
+                    {isPlaying ? (
+                      <svg className="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    )}
+                  </div>
+                  <span className="text-white text-sm font-medium">{isPlaying ? 'Playing...' : 'Click to Play Message'}</span>
 
                   {isPlaying && (
-                    <div className="flex-grow flex items-center justify-between space-x-0.5 h-6">
-                      {[...Array(15)].map((_, i) => (
+                    <div className="flex-grow flex items-center justify-end space-x-0.5 h-6 ml-4">
+                      {[...Array(12)].map((_, i) => (
                         <div
                           key={i}
-                          className="w-1.5 bg-cyan-400/60 rounded-full animate-pulse"
+                          className="w-1 bg-cyan-400/60 rounded-full animate-pulse"
                           style={{
-                            height: `${Math.random() * 100}%`,
-                            animationDelay: `-${Math.random()}s`
+                            height: `${20 + Math.random() * 80}%`,
+                            animationDelay: `-${Math.random()}s`,
+                            animationDuration: `${0.5 + Math.random()}s`
                           }}
                         ></div>
                       ))}

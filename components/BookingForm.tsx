@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { translations } from '../constants';
+import { translations, WEBHOOK_URL } from '../constants';
 import { LangType } from '../types';
 
 interface BookingFormProps {
@@ -10,38 +10,61 @@ interface BookingFormProps {
 const BookingForm: React.FC<BookingFormProps> = ({ t, lang }) => {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    symptom: 'Brake Service Request',
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    carYear: '',
-    carMake: '',
-    carModel: '',
-    date: '',
-    time: ''
+  // Initialize state with localStorage values if they exist
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem('bookingFormData');
+    const defaultData = {
+      symptom: 'Brake Service Request',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      carYear: '',
+      carMake: '',
+      carModel: '',
+      date: '',
+      time: ''
+    };
+    if (saved) {
+      try {
+        return { ...defaultData, ...JSON.parse(saved) };
+      } catch (e) {
+        return defaultData;
+      }
+    }
+    return defaultData;
   });
+
+  // Save to localStorage whenever formData changes
+  useEffect(() => {
+    localStorage.setItem('bookingFormData', JSON.stringify(formData));
+  }, [formData]);
 
   // Validation State
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // Calendar State
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>(formData.date || '');
 
-  // Set default date to next available day on mount
+  // Set default date ONLY if none exists
   useEffect(() => {
-    let date = new Date();
-    // Logic: Default to tomorrow or next monday if weekend
-    if (date.getDay() === 0) date.setDate(date.getDate() + 1);
-    const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, "0");
-    const d = String(date.getDate()).padStart(2, "0");
-    const formatted = `${y}-${m}-${d}`;
-    setSelectedDate(formatted);
-    setFormData(prev => ({ ...prev, date: formatted }));
-    setCurrentDate(new Date(y, date.getMonth(), 1));
+    if (!formData.date) {
+      let date = new Date();
+      // Logic: Default to tomorrow or next monday if weekend
+      if (date.getDay() === 0) date.setDate(date.getDate() + 1);
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      const formatted = `${y}-${m}-${d}`;
+      setSelectedDate(formatted);
+      setFormData(prev => ({ ...prev, date: formatted }));
+      setCurrentDate(new Date(y, date.getMonth(), 1));
+    } else {
+      const savedDate = new Date(formData.date.replace(/-/g, '/'));
+      setCurrentDate(new Date(savedDate.getFullYear(), savedDate.getMonth(), 1));
+      setSelectedDate(formData.date);
+    }
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -205,41 +228,40 @@ const BookingForm: React.FC<BookingFormProps> = ({ t, lang }) => {
       (window as any).dataLayer.push(gtmData);
     }
 
-    // N8N Payload
+    // N8N Payload - Updated to match N8N mapping module
     const payload = {
-      "First Name": formData.firstName,
-      "Last Name": formData.lastName,
-      "Full Name": `${formData.firstName} ${formData.lastName}`,
-      "Phone": formattedPhone,
-      "Email": formData.email,
-      "Car Make": formData.carMake,
-      "Car Model": formData.carModel,
-      "Car Year": formData.carYear,
-      "Vehicle": `${formData.carYear} ${formData.carMake} ${formData.carModel}`,
-      "Appointment Date": formData.date,
-      "Appointment Time": formData.time,
-      "UTM Source": getParam('utm_source') || null,
-      "UTM Medium": getParam('utm_medium') || null,
-      "UTM Campaign": getParam('utm_campaign') || null,
-      "UTM Term": getParam('utm_term') || null,
-      "UTM Content": getParam('utm_content') || null,
-      "GCLID": getParam('gclid') || null,
-      "FBCLID": getParam('fbclid') || null,
-      "MSCLKID": getParam('msclkid') || "",
-      "GA Client ID": (window as any).ga?.getAll?.[0]?.get('clientId') || "", // Try to get GA Client ID
-      "FBC": getParam('fbc') || null,
-      "Referrer": document.referrer || null,
-      "Page Variant": "brakes_001_react",
-      "User Language": lang,
-      "Event ID": eventId,
-      "Lead Type": "generate_lead"
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      phone: formattedPhone,
+      email: formData.email,
+      carMake: formData.carMake,
+      carModel: formData.carModel,
+      carYear: formData.carYear,
+      symptom: formData.symptom,
+      date: formData.date,
+      time: formData.time,
+      utm_source: getParam('utm_source') || null,
+      utm_medium: getParam('utm_medium') || null,
+      utm_campaign: getParam('utm_campaign') || null,
+      utm_term: getParam('utm_term') || null,
+      utm_content: getParam('utm_content') || null,
+      gclid: getParam('gclid') || null,
+      fbclid: getParam('fbclid') || null,
+      msclkid: getParam('msclkid') || null,
+      ga_client_id: (window as any).ga?.getAll?.[0]?.get('clientId') || null,
+      fbc: getParam('fbc') || null,
+      referrer: document.referrer || null,
+      pageVariant: "brakes_001_react",
+      userLanguage: lang,
+      event_id: eventId,
+      lead_type: "generate_lead"
     };
 
-    // Use the TEST webhook URL for now
-    const TEST_WEBHOOK_URL = "https://n8n.queensautoservices.com/webhook-test/5be99bf2-b19b-49f7-82b3-431fb1748b27";
+    // Use the production webhook URL
+    const FINAL_WEBHOOK_URL = WEBHOOK_URL;
 
     try {
-      const response = await fetch(TEST_WEBHOOK_URL, {
+      const response = await fetch(FINAL_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
