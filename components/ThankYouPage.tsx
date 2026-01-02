@@ -186,31 +186,34 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ lang = 'en' }) => {
                 </button>
               </div>
             ) : (
-              <div className="mb-10 w-full max-w-sm mx-auto cursor-pointer" onClick={toggleAudio}>
-                <div className={`bg-white/10 rounded-full p-2 flex items-center space-x-3 transition-all px-5 ${isPlaying ? 'ring-2 ring-cyan-400/50' : ''}`}>
-                  <div className="w-6 h-6 flex items-center justify-center">
+              <div className="mb-10 w-full max-w-sm mx-auto cursor-pointer group" onClick={toggleAudio}>
+                <div className={`backdrop-blur-xl bg-white/5 border border-white/10 rounded-full p-2.5 flex items-center space-x-4 transition-all duration-500 px-6 ${isPlaying ? 'ring-2 ring-cyan-400/30 shadow-[0_0_20px_rgba(34,211,238,0.2)] bg-white/10' : 'hover:bg-white/10 hover:border-white/20'}`}>
+                  <div className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${isPlaying ? 'bg-cyan-400 text-gray-900' : 'bg-white/10 text-white group-hover:bg-white/20'}`}>
                     {isPlaying ? (
-                      <svg className="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
                       </svg>
                     ) : (
-                      <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z" />
                       </svg>
                     )}
                   </div>
-                  <span className="text-white text-sm font-medium">{isPlaying ? 'Playing...' : 'Click to Play Message'}</span>
+                  <div className="text-left">
+                    <p className="text-white text-sm font-bold leading-tight">{isPlaying ? 'Playing Message' : 'Message for ' + (data?.name || 'You')}</p>
+                    <p className="text-gray-400 text-[10px] uppercase tracking-widest mt-0.5">{isPlaying ? 'Listen Carefully' : 'Click to Play'}</p>
+                  </div>
 
                   {isPlaying && (
-                    <div className="flex-grow flex items-center justify-end space-x-0.5 h-6 ml-4">
-                      {[...Array(12)].map((_, i) => (
+                    <div className="flex-grow flex items-center justify-end space-x-1 h-8 ml-4">
+                      {[...Array(16)].map((_, i) => (
                         <div
                           key={i}
-                          className="w-1 bg-cyan-400/60 rounded-full animate-pulse"
+                          className="w-1 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full animate-pulse"
                           style={{
-                            height: `${20 + Math.random() * 80}%`,
+                            height: `${30 + Math.random() * 70}%`,
                             animationDelay: `-${Math.random()}s`,
-                            animationDuration: `${0.5 + Math.random()}s`
+                            animationDuration: `${0.4 + Math.random() * 0.6}s`
                           }}
                         ></div>
                       ))}
