@@ -736,7 +736,7 @@ export const AboutSection: React.FC<SectionProps> = ({ t }) => (
     <div>
       <div className="rounded-2xl overflow-hidden shadow-lg w-full">
         <img
-          src="https://storage.googleapis.com/queens-videos/Queens-Auto-Services-Elgin-Front-View-Shop-001.webp"
+          src="/images/Shop-Front-Desk.webp"
           alt="Queens Auto Shop"
           className="w-full transition-transform duration-700 hover:scale-110"
           onError={(e) =>
@@ -754,7 +754,7 @@ export const ParallaxSection: React.FC<SectionProps> = ({ t }) => (
   <section
     className="mt-16 parallax rounded-2xl shadow-2xl py-24 px-8 max-w-8xl mx-auto"
     style={{
-      backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://queensautoserviceselgin.com/wp-content/uploads/2025/05/Queens-Elgin-Front-Desk-002.png')`,
+      backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('/images/Shop-Front-Desk.webp')`,
     }}
   >
     <div className="relative z-10 text-center max-w-3xl mx-auto">
@@ -778,16 +778,16 @@ export const ServiceAreaSection: React.FC<SectionProps> = ({ t }) => (
         <div className="w-24 h-1 bg-cyan-400 mt-4 mb-6"></div>
         <ul className="grid grid-cols-2 gap-x-8 gap-y-4 text-slate-300 animate-on-scroll fade-up delay-1">
           {[
-            "Elgin, IL",
-            "South Elgin, IL",
+            "Algonquin, IL",
+            "Lake in the Hills, IL",
             "Carpentersville, IL",
             "West Dundee, IL",
             "East Dundee, IL",
-            "Algonquin, IL",
+            "Huntley, IL",
             "Bartlett, IL",
             "Streamwood, IL",
             "Hoffman Estates, IL",
-            "Huntley, IL",
+            "Elgin, IL",
           ].map((city) => (
             <li key={city} className="flex items-center">
               <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-2"></span>
@@ -798,14 +798,14 @@ export const ServiceAreaSection: React.FC<SectionProps> = ({ t }) => (
       </div>
       <div className="h-64 md:h-80 rounded-2xl overflow-hidden glass-card">
         <a
-          href="https://maps.google.com/?q=1303+Dundee+Ave+Elgin+IL+60120"
+          href="https://maps.google.com/?q=2401+E+Algonquin+Rd,+Algonquin,+IL+60102"
           target="_blank"
           rel="noreferrer"
           className="block w-full h-full"
         >
           <img
-            src="/images/Queens-Elgin-map.webp"
-            alt="Queens Auto Services Elgin - 1303 Dundee Ave, Elgin, IL 60120"
+            src="/images/Queens-Auto-Services-Map.webp"
+            alt="Queens Auto Service Algonquin - 2401 E Algonquin Rd, Algonquin, IL 60102"
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
           />
         </a>

@@ -96,7 +96,7 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ lang = 'en' }) => {
             <img
               alt="Queens logo"
               className="h-10 w-auto"
-              src="https://storage.googleapis.com/queens-videos/Logo-White.webp"
+              src="/images/Logo-White.webp"
               onError={(e) =>
               ((e.target as HTMLImageElement).src =
                 "https://placehold.co/200x50/1e293b/ffffff?text=Queens+Auto")
@@ -176,7 +176,7 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ lang = 'en' }) => {
                   className="group relative inline-flex items-center justify-center px-8 py-3.5 text-base sm:text-lg font-bold text-white transition-all duration-300 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full hover:from-cyan-400 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] hover:scale-105 active:scale-95 animate-pulse"
                 >
                   <svg
-                    className="w-5 h-5 mr-3 fill-current"
+                    className="w-5 h-5 mr-3 fill-current text-white"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
@@ -186,20 +186,34 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ lang = 'en' }) => {
                 </button>
               </div>
             ) : (
-              <div className="mb-10 w-full max-w-sm mx-auto cursor-pointer" onClick={toggleAudio}>
-                <div className={`bg-white/10 rounded-full p-2 flex items-center space-x-3 transition-all ${isPlaying ? 'ring-2 ring-cyan-400/50' : ''}`}>
-                  <span className="text-white text-2xl">{isPlaying ? '🔊' : '🔇'}</span>
-                  <span className="text-white text-sm">{isPlaying ? 'Playing...' : 'Click to Play Message'}</span>
+              <div className="mb-10 w-full max-w-sm mx-auto cursor-pointer group" onClick={toggleAudio}>
+                <div className={`backdrop-blur-xl bg-white/5 border border-white/10 rounded-full p-2.5 flex items-center space-x-4 transition-all duration-500 px-6 ${isPlaying ? 'ring-2 ring-cyan-400/30 shadow-[0_0_20px_rgba(34,211,238,0.2)] bg-white/10' : 'hover:bg-white/10 hover:border-white/20'}`}>
+                  <div className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${isPlaying ? 'bg-cyan-400 text-gray-900' : 'bg-white/10 text-white group-hover:bg-white/20'}`}>
+                    {isPlaying ? (
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="text-left">
+                    <p className="text-white text-sm font-bold leading-tight">{isPlaying ? 'Playing Message' : 'Message for ' + (data?.name || 'You')}</p>
+                    <p className="text-gray-400 text-[10px] uppercase tracking-widest mt-0.5">{isPlaying ? 'Listen Carefully' : 'Click to Play'}</p>
+                  </div>
 
                   {isPlaying && (
-                    <div className="flex-grow flex items-center justify-between space-x-0.5 h-6">
-                      {[...Array(15)].map((_, i) => (
+                    <div className="flex-grow flex items-center justify-end space-x-1 h-8 ml-4">
+                      {[...Array(16)].map((_, i) => (
                         <div
                           key={i}
-                          className="w-1.5 bg-cyan-400/60 rounded-full animate-pulse"
+                          className="w-1 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full animate-pulse"
                           style={{
-                            height: `${Math.random() * 100}%`,
-                            animationDelay: `-${Math.random()}s`
+                            height: `${30 + Math.random() * 70}%`,
+                            animationDelay: `-${Math.random()}s`,
+                            animationDuration: `${0.4 + Math.random() * 0.6}s`
                           }}
                         ></div>
                       ))}
@@ -314,11 +328,11 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ lang = 'en' }) => {
         <div className="container mx-auto">
           <p>
             © 2025 Queens Auto Service. All Rights Reserved. |{" "}
-            <a className="hover:text-cyan-400" href="https://queensautoserviceselgin.com/privacy/" target="_blank" rel="noreferrer">
+            <a className="hover:text-cyan-400" href="https://queensautoservices.com/privacy" target="_blank" rel="noreferrer">
               Privacy Policy
             </a>{" "}
             |{" "}
-            <a className="hover:text-cyan-400" href="https://queensautoserviceselgin.com/terms/" target="_blank" rel="noreferrer">
+            <a className="hover:text-cyan-400" href="https://queensautoservices.com/terms" target="_blank" rel="noreferrer">
               Terms of Use
             </a>
           </p>
