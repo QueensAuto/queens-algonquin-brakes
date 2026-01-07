@@ -209,6 +209,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ t, lang }) => {
     // GTM Data Layer Push
     const gtmData = {
       event: 'generate_lead',
+      generate_lead: 'true',
       event_id: eventId,
       user_data: {
         email: formData.email,
